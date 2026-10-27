@@ -1,0 +1,6 @@
+{
+  "name": "I.Com Study Hub",
+  "description": "Complete study companion for I.Com Part 1 & Part 2 students featuring Accounting, Economics, Principles of Commerce, Business Math, Notes, Flashcards, MCQ Quizzes, and Study Planner.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

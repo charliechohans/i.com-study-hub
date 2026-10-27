@@ -1,0 +1,202 @@
+{
+  "entities": {
+    "StudyNote": {
+      "title": "StudyNote",
+      "description": "A user-created or saved study note for an I.Com subject.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID owning this note."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the study note (1-150 characters)."
+        },
+        "content": {
+          "type": "string",
+          "description": "Body content of the study note (1-5000 characters)."
+        },
+        "subjectCode": {
+          "type": "string",
+          "description": "Subject code (e.g. ACC_1, ECO_1, POC_1, BM_1, ACC_2, CG_2, BLAW_2, STAT_2)."
+        },
+        "part": {
+          "type": "string",
+          "enum": ["PART_1", "PART_2"],
+          "description": "I.Com part (PART_1 or PART_2)."
+        },
+        "isImportant": {
+          "type": "boolean",
+          "description": "Whether the note is starred as important for exams."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when last updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": ["userId", "title", "content", "subjectCode", "part", "isImportant", "createdAt", "updatedAt"]
+    },
+    "StudyTask": {
+      "title": "StudyTask",
+      "description": "A study planner / revision task for an I.Com student.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID owning this task."
+        },
+        "title": {
+          "type": "string",
+          "description": "Task description (1-200 characters)."
+        },
+        "subjectCode": {
+          "type": "string",
+          "description": "Associated I.Com subject code."
+        },
+        "part": {
+          "type": "string",
+          "enum": ["PART_1", "PART_2"],
+          "description": "I.Com part (PART_1 or PART_2)."
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["HIGH", "MEDIUM", "LOW"],
+          "description": "Task priority for exam preparation."
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "Completion status of the study task."
+        },
+        "targetDate": {
+          "type": "string",
+          "description": "Target date label (e.g., Today, Tomorrow, Exam Week)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created (FieldValue.serverTimestamp())."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when last updated (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": ["userId", "title", "subjectCode", "part", "priority", "completed", "targetDate", "createdAt", "updatedAt"]
+    },
+    "QuizAttempt": {
+      "title": "QuizAttempt",
+      "description": "Recorded score of an MCQ quiz attempt by an I.Com student.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID who took the quiz."
+        },
+        "subjectCode": {
+          "type": "string",
+          "description": "Subject code tested."
+        },
+        "subjectTitle": {
+          "type": "string",
+          "description": "Readable title of the subject."
+        },
+        "part": {
+          "type": "string",
+          "enum": ["PART_1", "PART_2"],
+          "description": "I.Com part."
+        },
+        "score": {
+          "type": "integer",
+          "description": "Correct answers count."
+        },
+        "totalQuestions": {
+          "type": "integer",
+          "description": "Total questions in the quiz."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when quiz was completed (FieldValue.serverTimestamp())."
+        }
+      },
+      "required": ["userId", "subjectCode", "subjectTitle", "part", "score", "totalQuestions", "createdAt"]
+    },
+    "CustomFlashcard": {
+      "title": "CustomFlashcard",
+      "description": "User-created flashcard for commerce terms, accounting rules, or formulas.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Authenticated user UID owning this flashcard."
+        },
+        "question": {
+          "type": "string",
+          "description": "Front side question or term (1-300 characters)."
+        },
+        "answer": {
+          "type": "string",
+          "description": "Back side definition, formula, or accounting rule (1-1000 characters)."
+        },
+        "subjectCode": {
+          "type": "string",
+          "description": "Subject code for categorization."
+        },
+        "part": {
+          "type": "string",
+          "enum": ["PART_1", "PART_2"],
+          "description": "I.Com part."
+        },
+        "mastered": {
+          "type": "boolean",
+          "description": "Whether the student has mastered this flashcard."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when updated."
+        }
+      },
+      "required": ["userId", "question", "answer", "subjectCode", "part", "mastered", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/notes/{noteId}": {
+      "schema": {
+        "$ref": "#/entities/StudyNote"
+      },
+      "description": "User's personal study notes for I.Com subjects."
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": {
+        "$ref": "#/entities/StudyTask"
+      },
+      "description": "User's study planner tasks and exam revision checklist."
+    },
+    "/users/{userId}/quiz_attempts/{attemptId}": {
+      "schema": {
+        "$ref": "#/entities/QuizAttempt"
+      },
+      "description": "History of MCQ quiz scores and attempts per subject."
+    },
+    "/users/{userId}/flashcards/{cardId}": {
+      "schema": {
+        "$ref": "#/entities/CustomFlashcard"
+      },
+      "description": "User's custom flashcards for commerce definitions and formulas."
+    }
+  }
+}
